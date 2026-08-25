@@ -1,0 +1,109 @@
+#Calculating average and sum if key = 1 function returns average else sum of list items
+def averageCalculator(items,key):
+    sum1, count = [0, 0]
+    for i in items:
+        sum1+= i
+        count+= 1
+    return sum1/count if key == 1 else sum1
+
+#calculating Variance of List Items
+def varianceCalculator(items,avgItem):
+    newItemList = []
+    for i in items:
+       newItemList.append( ((i - avgItem) * (i - avgItem))/(len(items)-1))
+    return newItemList
+
+heights = [1.70, 1.62, 1.52, 1.85, 1.91, 1.42]
+weights = [72, 64, 84, 80, 72, 70]
+avgHeight = averageCalculator(heights,1)
+avgWeight = averageCalculator(weights,1)
+print(avgHeight,avgWeight)
+print()
+
+#Creating the Variance of Heights and Weights List
+varHeights = varianceCalculator(heights, avgHeight)
+varWeights = varianceCalculator(weights, avgWeight)
+print(varHeights, varWeights)
+print()
+
+#calculating total value of List Items
+totalVarHeights = averageCalculator(varHeights,2)
+totalVarWeights = averageCalculator(varWeights,2)
+
+print(totalVarHeights, totalVarWeights)
+print()
+
+# creating covariance list
+coVarList = []
+for i in range(len(heights)):
+    temp = (heights[i] - avgHeight) * (weights[i] - avgWeight)
+    coVarList.append(temp)
+
+for i in coVarList:
+    print(i, end = '')
+print()
+
+totalcoVarList = round(averageCalculator(coVarList,2),2)
+print("Total of covariance is",totalcoVarList)
+print()
+
+#Creating Covariance Matrix
+covarMatrix = []
+for i in range(2):
+    temp = []
+    for j in range(2):
+        if(i == j and i!= 1):
+            temp.append(totalVarHeights)
+        elif (i == j and i == 1):
+            temp.append(totalVarWeights)
+        else:
+            temp.append(totalcoVarList)
+    covarMatrix.append(temp)
+
+print("Covariance Matrix is",covarMatrix)
+************ Output ***********
+Covariance Matrix is [[0.03568, 0.54], [0.54, 51.86666666666667]]
+
+#Method 2
+heights = [1.70, 1.62, 1.52, 1.85, 1.91, 1.42]
+weights = [72, 64, 84, 80, 72, 70]
+
+X1, Y1, XY, X2, Y2 = [[], [], [], [], []]
+
+for i in range(len(heights)):
+    X1.append(heights[i]- avgHeight)
+    Y1.append(weights[i] - avgWeight)
+
+print("X1 and Y1 is ",X1, Y1)
+print()
+
+for i in range(len(heights)):
+    X2.append(X1[i] * X1[i])
+    Y2.append(Y1[i] * Y1[i])
+    XY.append(X1[i] * Y1[i])
+print("square of heights is",X2)
+print()
+print(Y2)
+print()
+print(XY)
+print()
+
+totalX2 = averageCalculator(X2,2)
+totalY2 = averageCalculator(Y2,2)
+totalXY = averageCalculator(XY,2)
+coVarMatrix2 = []
+for i in range(2):
+    temp = []
+    for j in range(2):
+        if(i == j and i!= 1):
+            temp.append(totalX2/(len(X2)-1))
+        elif (i == j and i == 1):
+            temp.append(totalY2/(len(X2)-1))
+        else:
+            temp.append(totalXY/(len(X2)-1))
+    coVarMatrix2.append(temp)
+
+print("Method 2 covariance Matrix is", coVarMatrix2)
+
+***************** Output ****************
+Method 2 covariance Matrix is [[0.03568, 0.10800000000000003], [0.10800000000000003, 51.866666666666674]]
