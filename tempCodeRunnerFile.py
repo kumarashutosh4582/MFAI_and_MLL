@@ -1,0 +1,1 @@
+data.will_buy_insurance,
